@@ -6,10 +6,13 @@
     <meta name="author" content="Vishnu Raj">
     <meta name="referrer" content="never">
     <title>BountyScout</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Code+Pro:wght@600&family=Raleway:wght@600&display=swap" rel="stylesheet">
 
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Code+Pro:wght@600&family=Raleway:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Code+Pro:wght@600&family=Raleway:wght@600&display=swap" rel="stylesheet">
+    
     <style>
-        /* General Styles */
+        
         body {
             background-color: #1A1A2E;
             color: #FFFFFF;
@@ -21,7 +24,6 @@
             align-items: center;
         }
 
-        /* Header */
         h1 {
             text-align: center;
             font-family: 'Raleway', sans-serif;
@@ -40,7 +42,6 @@
 }
 
 
-        /* Form Section */
         .form-section {
             background: #16213E;
             border-radius: 10px;
@@ -76,7 +77,6 @@
             cursor: pointer;
         }
 
-        /* Link Section */
         .link-section {
             text-align: center;
         }
@@ -98,7 +98,6 @@
             transform: scale(1.05);
         }
 
-        /* Helper Websites Section */
         .helper-heading {
             margin-top: 40px;
             font-size: 28px;
@@ -132,7 +131,6 @@
             transform: scale(1.05);
         }
 
-        /* Footer */
         footer {
             margin-top: 40px;
             font-size: 14px;
@@ -140,7 +138,6 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        /* Responsive */
         @media (max-width: 600px) {
             h1 {
                 font-size: 28px;
@@ -153,13 +150,20 @@
             .link-section a {
                 font-size: 16px;
             }
+            .contact-section {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    color: #6FDFDF;
+}
         }
     </style>
 </head>
 <body>
     <h1>BountyScout</h1>
     <p class="tagline">Perfect for a tool that assists in bug bounty reconnaissance.</p>
-    <!-- Input Form Section -->
+
     <div class="form-section">
         <label for="target">Target Domain:</label>
         <input id="target" type="text" placeholder="Enter domain (e.g., site.com)" autofocus>
@@ -207,6 +211,20 @@
         <a href="https://publicwww.com/" target="_blank">Source Code Search Engine</a>
         <a href="https://freelearniverse.wordpress.com/2025/03/05/google-dorks-unveiling-the-power-of-advanced-search-techniques/" target="_blank" style="background: #FF5733; color: #FFFFFF;">Learn About Google Dorking</a>
     </div>
+
+    <div class="social-icons" style="text-align: center; margin: 40px 0 20px 0;">
+        <a href="https://x.com/freelearniverse" target="_blank" style="margin: 0 10px; text-decoration: none;">
+            <img src="https://img.icons8.com/?size=100&id=YfCbGWCWcuar&format=png&color=000000" alt="X" style="width: 24px; height: 24px; vertical-align: middle;">
+        </a>
+        <a href="https://t.me/freelearniverse" target="_blank" style="margin: 0 10px; text-decoration: none;">
+            <img src="https://img.icons8.com/?size=100&id=F4ZPUh2Mk5tk&format=png&color=000000" alt="Telegram" style="width: 24px; height: 24px; vertical-align: middle;">
+        </a>
+        <a href="https://t.co/OLgCEr9n2l" target="_blank" style="margin: 0 10px; text-decoration: none;">
+            <img src="https://img.icons8.com/?size=100&id=85572&format=png&color=000000" alt="Website" style="width: 24px; height: 24px; vertical-align: middle;">
+        </a>
+    </div>
+    
+    
 
     <footer>
         &copy; 2025 VrJ | BountyScout
