@@ -7,228 +7,783 @@
     <meta name="referrer" content="never">
     <title>BountyScout</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Code+Pro:wght@600&family=Raleway:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Code+Pro:wght@600&family=Raleway:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Code+Pro:wght@600&family=Raleway:wght@600&display=swap" rel="stylesheet">
     
     <style>
-        
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            background-color: #1A1A2E;
-            color: #FFFFFF;
-            font-family: 'Fira Code', monospace;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
             margin: 0;
-            padding: 0;
+            padding: 20px;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background elements */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(0, 168, 204, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(111, 223, 223, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(0, 168, 204, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Floating particles */
+        .particle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: linear-gradient(45deg, #00a8cc, #6fdfdf);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float 6s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        .particle:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { top: 40%; left: 80%; animation-delay: 2s; }
+        .particle:nth-child(3) { top: 70%; left: 20%; animation-delay: 4s; }
+        .particle:nth-child(4) { top: 60%; left: 90%; animation-delay: 1s; }
+        .particle:nth-child(5) { top: 30%; left: 70%; animation-delay: 3s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(120deg); }
+            66% { transform: translateY(10px) rotate(240deg); }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            z-index: 1;
         }
 
         h1 {
             text-align: center;
             font-family: 'Raleway', sans-serif;
-            font-size: 36px;
-            font-weight: bold;
-            margin: 30px 0;
-            color: #00A8CC;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin: 20px 0 10px 0;
+            background: linear-gradient(135deg, #00a8cc 0%, #6fdfdf 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(0, 168, 204, 0.3);
+            animation: glow 2s ease-in-out infinite alternate;
         }
-        .tagline {
-                text-align: center;
-                font-size: 18px;
-                color: #6FDFDF;
-                margin-top: -10px;
-                margin-bottom: 20px;
-                font-family: 'Raleway', sans-serif;
-}
 
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(0, 168, 204, 0.3)); }
+            to { filter: drop-shadow(0 0 30px rgba(0, 168, 204, 0.6)); }
+        }
+
+        .tagline {
+            text-align: center;
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            color: #6fdfdf;
+            margin: 0 0 40px 0;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            opacity: 0.9;
+        }
 
         .form-section {
-            background: #16213E;
-            border-radius: 10px;
-            padding: 20px;
-            width: 90%;
-            max-width: 600px;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-            margin-bottom: 20px;
+            background: rgba(22, 33, 62, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(111, 223, 223, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .form-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 168, 204, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .form-section:hover::before {
+            left: 100%;
+        }
+
+        .form-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(111, 223, 223, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
         }
 
         .form-section label {
             display: block;
-            margin-bottom: 8px;
-            font-size: 16px;
-            color: #6FDFDF;
+            margin-bottom: 15px;
+            font-size: 15px;
+            color: #6fdfdf;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Source Code Pro', monospace;
+            position: relative;
+            padding-left: 30px;
+            text-shadow: 0 0 10px rgba(111, 223, 223, 0.3);
+        }
+
+        .form-section label i {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            background: linear-gradient(135deg, #00a8cc, #6fdfdf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+        }
+
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 25px;
         }
 
         .form-section input,
         .form-section select {
             width: 100%;
-            padding: 12px;
-            border-radius: 5px;
-            border: none;
-            margin-bottom: 20px;
-            background-color: #0F3460;
-            color: #FFFFFF;
+            padding: 18px 24px;
+            border-radius: 15px;
+            border: 2px solid transparent;
+            background: linear-gradient(rgba(15, 52, 96, 0.9), rgba(15, 52, 96, 0.9)) padding-box,
+                        linear-gradient(135deg, rgba(0, 168, 204, 0.3), rgba(111, 223, 223, 0.3)) border-box;
+            color: #ffffff;
             font-size: 16px;
+            font-family: 'Fira Code', monospace;
+            font-weight: 500;
             outline: none;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(15px);
+            box-shadow: 
+                0 4px 15px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .form-section input:focus,
+        .form-section select:focus {
+            background: linear-gradient(rgba(15, 52, 96, 0.95), rgba(15, 52, 96, 0.95)) padding-box,
+                        linear-gradient(135deg, #00a8cc, #6fdfdf) border-box;
+            box-shadow: 
+                0 0 0 4px rgba(0, 168, 204, 0.15),
+                0 8px 30px rgba(0, 168, 204, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px) scale(1.02);
+        }
+
+        .form-section input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+            font-style: italic;
+            font-weight: 400;
+            transition: all 0.3s ease;
+        }
+
+        .form-section input:focus::placeholder {
+            color: rgba(111, 223, 223, 0.6);
+            transform: translateX(5px);
+        }
+
+        .custom-select-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
         }
 
         .form-section select {
             cursor: pointer;
+            appearance: none;
+            background-image: none;
+            padding-right: 60px;
+            position: relative;
+            z-index: 2;
         }
 
-        .link-section {
+        .custom-select-wrapper::after {
+            content: '';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 10px solid #00a8cc;
+            pointer-events: none;
+            z-index: 3;
+            transition: all 0.3s ease;
+        }
+
+        .custom-select-wrapper:hover::after {
+            border-top-color: #6fdfdf;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .form-section select:focus + .custom-select-wrapper::after,
+        .custom-select-wrapper:has(select:focus)::after {
+            border-top-color: #6fdfdf;
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        /* Enhanced select option styling */
+        .form-section select option {
+            background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+            color: #ffffff;
+            padding: 15px 20px;
+            font-family: 'Fira Code', monospace;
+            font-weight: 500;
+            border: none;
+            border-bottom: 1px solid rgba(0, 168, 204, 0.1);
+            transition: all 0.2s ease;
+        }
+
+        .form-section select option:hover,
+        .form-section select option:checked {
+            background: linear-gradient(135deg, #00a8cc 0%, #6fdfdf 100%);
+            color: #ffffff;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-section select option:first-child {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .form-section select option:last-child {
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            border-bottom: none;
+        }
+
+        /* Custom scrollbar for select dropdown */
+        .form-section select {
+            scrollbar-width: thin;
+            scrollbar-color: #00a8cc #16213e;
+        }
+
+        .form-section select::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .form-section select::-webkit-scrollbar-track {
+            background: #16213e;
+            border-radius: 4px;
+        }
+
+        .form-section select::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #00a8cc, #6fdfdf);
+            border-radius: 4px;
+        }
+
+        .form-section select::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #6fdfdf, #00a8cc);
+        }
+
+        .search-button-section {
             text-align: center;
+            margin: 40px 0;
         }
 
-        .link-section a {
-            background: #00A8CC;
-            color: #FFFFFF;
-            padding: 12px 20px;
-            border-radius: 5px;
+        .search-button {
+            background: linear-gradient(135deg, #00a8cc 0%, #6fdfdf 100%);
+            color: #ffffff;
+            padding: 18px 40px;
+            border-radius: 50px;
             text-decoration: none;
             font-size: 18px;
             font-family: 'Source Code Pro', monospace;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            transition: background 0.3s ease, transform 0.2s ease;
+            font-weight: 600;
+            box-shadow: 
+                0 10px 30px rgba(0, 168, 204, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .link-section a:hover {
-            background: #6FDFDF;
-            transform: scale(1.05);
+        .search-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .search-button:hover::before {
+            left: 100%;
+        }
+
+        .search-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 
+                0 20px 40px rgba(0, 168, 204, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+        }
+
+        .search-button:active {
+            transform: translateY(-1px) scale(1.02);
+        }
+
+        .helper-section {
+            margin-top: 60px;
         }
 
         .helper-heading {
-            margin-top: 40px;
-            font-size: 28px;
-            color: #00A8CC;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            color: #00a8cc;
             font-family: 'Raleway', sans-serif;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .helper-heading::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #00a8cc, #6fdfdf);
+            border-radius: 2px;
         }
 
         .helper-links {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 20px;
-            gap: 10px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
         }
 
         .helper-links a {
-            background: #16213E;
-            color: #00A8CC;
-            padding: 10px 15px;
-            border-radius: 5px;
+            background: rgba(22, 33, 62, 0.7);
+            backdrop-filter: blur(15px);
+            color: #ffffff;
+            padding: 25px 30px;
+            border-radius: 18px;
             text-decoration: none;
-            font-size: 14px;
-            font-family: 'Poppins', sans-serif;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            transition: background 0.3s ease, transform 0.2s ease;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            border: 2px solid transparent;
+            background: linear-gradient(rgba(22, 33, 62, 0.7), rgba(22, 33, 62, 0.7)) padding-box,
+                        linear-gradient(135deg, rgba(111, 223, 223, 0.2), rgba(0, 168, 204, 0.2)) border-box;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .helper-links a i {
+            font-size: 18px;
+            background: linear-gradient(135deg, #00a8cc, #6fdfdf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: all 0.3s ease;
+        }
+
+        .helper-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(0, 168, 204, 0.1), 
+                rgba(111, 223, 223, 0.1), 
+                transparent);
+            transition: left 0.6s ease;
+        }
+
+        .helper-links a::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #00a8cc, #6fdfdf);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .helper-links a:hover::before {
+            left: 100%;
+        }
+
+        .helper-links a:hover::after {
+            transform: scaleX(1);
         }
 
         .helper-links a:hover {
-            background: #00A8CC;
-            color: #FFFFFF;
-            transform: scale(1.05);
+            background: linear-gradient(rgba(0, 168, 204, 0.15), rgba(0, 168, 204, 0.15)) padding-box,
+                        linear-gradient(135deg, #00a8cc, #6fdfdf) border-box;
+            color: #ffffff;
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 
+                0 20px 40px rgba(0, 168, 204, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .helper-links a:hover i {
+            background: linear-gradient(135deg, #6fdfdf, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transform: scale(1.1);
+        }
+
+        .helper-links a[style*="background: linear-gradient(135deg, #ff5733, #ff8a50)"] {
+            background: linear-gradient(135deg, #ff5733, #ff8a50) !important;
+            border: 2px solid rgba(255, 87, 51, 0.4) !important;
+            color: #ffffff !important;
+            font-weight: 600;
+            animation: pulse 2s infinite, glow-orange 3s ease-in-out infinite alternate;
+            position: relative;
+        }
+
+        .helper-links a[style*="background: linear-gradient(135deg, #ff5733, #ff8a50)"] i {
+            background: linear-gradient(135deg, #ffffff, #ffccaa) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
+        }
+
+        @keyframes glow-orange {
+            0% { 
+                box-shadow: 
+                    0 10px 30px rgba(255, 87, 51, 0.4),
+                    0 0 20px rgba(255, 87, 51, 0.2); 
+            }
+            100% { 
+                box-shadow: 
+                    0 10px 40px rgba(255, 87, 51, 0.6),
+                    0 0 30px rgba(255, 87, 51, 0.4); 
+            }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 8px 25px rgba(255, 87, 51, 0.3); }
+            50% { box-shadow: 0 8px 35px rgba(255, 87, 51, 0.5); }
+            100% { box-shadow: 0 8px 25px rgba(255, 87, 51, 0.3); }
+        }
+
+        .social-section {
+            text-align: center;
+            margin: 60px 0 40px 0;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            width: 60px;
+            height: 60px;
+            background: rgba(22, 33, 62, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 3px solid transparent;
+            background: linear-gradient(rgba(22, 33, 62, 0.8), rgba(22, 33, 62, 0.8)) padding-box,
+                        linear-gradient(135deg, rgba(111, 223, 223, 0.3), rgba(0, 168, 204, 0.3)) border-box;
+            backdrop-filter: blur(15px);
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-icons a::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(0, 168, 204, 0.3), transparent);
+            border-radius: 50%;
+            transition: all 0.4s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .social-icons a:hover::before {
+            width: 100%;
+            height: 100%;
+        }
+
+        .social-icons a:hover {
+            background: linear-gradient(135deg, #00a8cc, #6fdfdf) padding-box,
+                        linear-gradient(135deg, #6fdfdf, #00a8cc) border-box;
+            transform: translateY(-8px) rotate(360deg) scale(1.1);
+            box-shadow: 
+                0 15px 35px rgba(0, 168, 204, 0.5),
+                0 0 20px rgba(111, 223, 223, 0.3);
+        }
+
+        .social-icons img {
+            width: 28px;
+            height: 28px;
+            filter: brightness(0) invert(1);
+            transition: all 0.4s ease;
+            z-index: 1;
+            position: relative;
+        }
+
+        .social-icons a:hover img {
+            filter: brightness(0) invert(1);
+            transform: scale(1.1);
         }
 
         footer {
-            margin-top: 40px;
+            margin-top: 60px;
             font-size: 14px;
-            color: #6FDFDF;
-            font-family: 'Poppins', sans-serif;
+            color: rgba(111, 223, 223, 0.8);
+            font-family: 'Inter', sans-serif;
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 2px solid transparent;
+            border-image: linear-gradient(90deg, transparent, rgba(111, 223, 223, 0.3), transparent) 1;
+            width: 100%;
+            background: rgba(22, 33, 62, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 15px 15px 0 0;
+            position: relative;
         }
 
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 28px;
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #00a8cc, #6fdfdf);
+            border-radius: 0 0 3px 3px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .form-section {
+                padding: 25px;
+                margin-bottom: 20px;
+            }
+
+            .helper-links {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .social-icons {
+                gap: 20px;
+            }
+
+            .search-button {
+                padding: 16px 35px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-section {
+                padding: 20px;
             }
 
             .helper-links a {
-                font-size: 12px;
+                padding: 15px 20px;
+                font-size: 13px;
             }
 
-            .link-section a {
-                font-size: 16px;
+            .social-icons a {
+                width: 45px;
+                height: 45px;
             }
-            .contact-section {
-    text-align: center;
-    margin-top: 30px;
-    font-size: 16px;
-    font-family: 'Poppins', sans-serif;
-    color: #6FDFDF;
-}
+
+            .social-icons img {
+                width: 20px;
+                height: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>BountyScout</h1>
-    <p class="tagline">Perfect for a tool that assists in bug bounty reconnaissance.</p>
+    <!-- Floating particles -->
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
 
-    <div class="form-section">
-        <label for="target">Target Domain:</label>
-        <input id="target" type="text" placeholder="Enter domain (e.g., site.com)" autofocus>
-        <label for="keywords">Keyword(s):</label>
-        <input id="keywords" type="text" placeholder="Enter keywords (e.g., login, admin)">
-        <label for="filetype">File Type:</label>
-        <input id="filetype" type="text" placeholder="Enter file type (e.g., pdf, xlsx)">
-        <label for="daterange">Date Range:</label>
-        <input id="daterange" type="text" placeholder="e.g., before:2023 after:2020">
-        <label for="searchtype">Select Search Type:</label>
-        <select id="searchtype">
-            <option value="site">Site</option>
-            <option value="inurl">Inurl</option>
-            <option value="intitle">Intitle</option>
-            <option value="filetype">Filetype</option>
-            <option value="link">Link</option>
-            <option value="intext">Intext</option>
-            <option value="allintitle">Allintitle</option>
-            <option value="cache">Cache</option>
-            <option value="related">Related</option>
-            <option value="info">Info</option>
-            <option value="ext">Ext</option>
-            <option value="define">Define</option>
-            <option value="inanchor">Inanchor</option>
-            <option value="numrange">Numrange</option>
-            <option value="around">AROUND(X)</option>
-            <option value="allinurl">Allinurl</option>
-        </select>
+    <div class="container">
+        <h1><i class="fas fa-crosshairs"></i> BountyScout</h1>
+        <p class="tagline">Perfect for a tool that assists in bug bounty reconnaissance.</p>
+
+        <div class="form-section">
+            <div class="input-wrapper">
+                <label for="target"><i class="fas fa-globe"></i> Target Domain:</label>
+                <input id="target" type="text" placeholder="Enter domain (e.g., site.com)" autofocus>
+            </div>
+            
+            <div class="input-wrapper">
+                <label for="keywords"><i class="fas fa-key"></i> Keyword(s):</label>
+                <input id="keywords" type="text" placeholder="Enter keywords (e.g., login, admin)">
+            </div>
+            
+            <div class="input-wrapper">
+                <label for="filetype"><i class="fas fa-file"></i> File Type:</label>
+                <input id="filetype" type="text" placeholder="Enter file type (e.g., pdf, xlsx)">
+            </div>
+            
+            <div class="input-wrapper">
+                <label for="daterange"><i class="fas fa-calendar"></i> Date Range:</label>
+                <input id="daterange" type="text" placeholder="e.g., before:2023 after:2020">
+            </div>
+            
+            <div class="input-wrapper">
+                <label for="searchtype"><i class="fas fa-search"></i> Select Search Type:</label>
+                <div class="custom-select-wrapper">
+                    <select id="searchtype">
+                        <option value="site">Site - Search within a specific domain</option>
+                        <option value="inurl">Inurl - Find pages with keywords in URL</option>
+                        <option value="intitle">Intitle - Search for keywords in page titles</option>
+                        <option value="filetype">Filetype - Search for specific file types</option>
+                        <option value="link">Link - Find pages linking to a URL</option>
+                        <option value="intext">Intext - Search within page content</option>
+                        <option value="allintitle">Allintitle - All keywords in title</option>
+                        <option value="cache">Cache - View cached version of page</option>
+                        <option value="related">Related - Find similar websites</option>
+                        <option value="info">Info - Get information about a page</option>
+                        <option value="ext">Ext - Search by file extension</option>
+                        <option value="define">Define - Get definition of terms</option>
+                        <option value="inanchor">Inanchor - Search in anchor text</option>
+                        <option value="numrange">Numrange - Search number ranges</option>
+                        <option value="around">AROUND(X) - Words within X of each other</option>
+                        <option value="allinurl">Allinurl - All keywords in URL</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="search-button-section">
+            <a href="#" class="search-button" onclick="perform_search()" aria-label="Perform Custom Search">
+                <i class="fas fa-rocket"></i> Perform Custom Search
+            </a>
+        </div>
+
+        <div class="helper-section">
+            <div class="helper-heading">
+                <i class="fas fa-tools"></i> Helper Websites
+            </div>
+            <div class="helper-links">
+                <a href="https://requestbin.net/" target="_blank">
+                    <i class="fas fa-server"></i> DNSBin - The request.bin of DNS
+                </a>
+                <a href="https://hackertarget.com/wordpress-security-scan/" target="_blank">
+                    <i class="fab fa-wordpress"></i> WordPress Scan #1
+                </a>
+                <a href="https://wprecon.com/" target="_blank">
+                    <i class="fab fa-wordpress"></i> WordPress Scan #2
+                </a>
+                <a href="https://developers.facebook.com/tools/ct/" target="_blank">
+                    <i class="fab fa-facebook"></i> Facebook Certificate Transparency
+                </a>
+                <a href="https://www.smartconversion.com/unit_conversion/IP_Address_Converter.aspx" target="_blank">
+                    <i class="fas fa-exchange-alt"></i> IP Converter
+                </a>
+                <a href="https://whoisrequest.com/history/" target="_blank">
+                    <i class="fas fa-history"></i> Domain History Checker
+                </a>
+                <a href="https://publicwww.com/" target="_blank">
+                    <i class="fas fa-code"></i> Source Code Search Engine
+                </a>
+                <a href="https://freelearniverse.wordpress.com/2025/03/05/google-dorks-unveiling-the-power-of-advanced-search-techniques/" target="_blank" style="background: linear-gradient(135deg, #ff5733, #ff8a50) !important; color: #ffffff !important;">
+                    <i class="fas fa-graduation-cap"></i> Learn About Google Dorking
+                </a>
+            </div>
+        </div>
+
+        <div class="social-section">
+            <div class="social-icons">
+                <a href="https://x.com/freelearniverse" target="_blank" title="Follow on X">
+                    <img src="https://img.icons8.com/?size=100&id=YfCbGWCWcuar&format=png&color=000000" alt="X">
+                </a>
+                <a href="https://t.me/freelearniverse" target="_blank" title="Join Telegram">
+                    <img src="https://img.icons8.com/?size=100&id=F4ZPUh2Mk5tk&format=png&color=000000" alt="Telegram">
+                </a>
+                <a href="https://t.co/OLgCEr9n2l" target="_blank" title="Visit Website">
+                    <img src="https://img.icons8.com/?size=100&id=85572&format=png&color=000000" alt="Website">
+                </a>
+            </div>
+        </div>
+
+        <footer>
+            &copy; 2025 VrJ | BountyScout - Enhanced Bug Bounty Reconnaissance Tool
+        </footer>
     </div>
-
-    <!-- Perform Search Button -->
-    <div class="link-section">
-        <a href="#" onclick="perform_search()" aria-label="Perform Custom Search">🔍 Perform Custom Search</a>
-    </div>
-
-    <!-- Helper Websites Section -->
-    <div class="helper-heading">Helper Websites</div>
-    <div class="helper-links">
-        <a href="https://requestbin.net/" target="_blank">DNSBin - The request.bin of DNS</a>
-        <a href="https://hackertarget.com/wordpress-security-scan/" target="_blank">WordPress Scan #1</a>
-        <a href="https://wprecon.com/" target="_blank">WordPress Scan #2</a>
-        <a href="https://developers.facebook.com/tools/ct/" target="_blank">Facebook Certificate Transparency</a>
-        <a href="https://www.smartconversion.com/unit_conversion/IP_Address_Converter.aspx" target="_blank">IP Converter</a>
-        <a href="https://whoisrequest.com/history/" target="_blank">Domain History Checker</a>
-        <a href="https://publicwww.com/" target="_blank">Source Code Search Engine</a>
-        <a href="https://freelearniverse.wordpress.com/2025/03/05/google-dorks-unveiling-the-power-of-advanced-search-techniques/" target="_blank" style="background: #FF5733; color: #FFFFFF;">Learn About Google Dorking</a>
-    </div>
-
-    <div class="social-icons" style="text-align: center; margin: 40px 0 20px 0;">
-        <a href="https://x.com/freelearniverse" target="_blank" style="margin: 0 10px; text-decoration: none;">
-            <img src="https://img.icons8.com/?size=100&id=YfCbGWCWcuar&format=png&color=000000" alt="X" style="width: 24px; height: 24px; vertical-align: middle;">
-        </a>
-        <a href="https://t.me/freelearniverse" target="_blank" style="margin: 0 10px; text-decoration: none;">
-            <img src="https://img.icons8.com/?size=100&id=F4ZPUh2Mk5tk&format=png&color=000000" alt="Telegram" style="width: 24px; height: 24px; vertical-align: middle;">
-        </a>
-        <a href="https://t.co/OLgCEr9n2l" target="_blank" style="margin: 0 10px; text-decoration: none;">
-            <img src="https://img.icons8.com/?size=100&id=85572&format=png&color=000000" alt="Website" style="width: 24px; height: 24px; vertical-align: middle;">
-        </a>
-    </div>
-    
-    
-
-    <footer>
-        &copy; 2025 VrJ | BountyScout
-    </footer>
 
     <script>
         function perform_search() {
@@ -245,8 +800,8 @@
                 return;
             }
 
-            document.getElementById('target').style.border = "none";
-            document.getElementById('keywords').style.border = "none";
+            document.getElementById('target').style.border = "2px solid rgba(15, 52, 96, 0.5)";
+            document.getElementById('keywords').style.border = "2px solid rgba(15, 52, 96, 0.5)";
 
             let query = '';
             if (target) query += `site:${target} `;
@@ -276,6 +831,60 @@
             const url = `https://www.google.com/search?q=${encodeURIComponent(query.trim())}`;
             window.open(url, '_blank');
         }
+
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add loading animation to search button
+            const searchButton = document.querySelector('.search-button');
+            searchButton.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+
+            // Add focus effects to inputs with enhanced animations
+            const inputs = document.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'translateX(8px)';
+                    this.parentElement.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.transform = '';
+                });
+
+                // Add typing effect to inputs
+                input.addEventListener('input', function() {
+                    this.style.transform = 'scale(1.01)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 100);
+                });
+            });
+
+            // Add stagger animation to helper links
+            const helperLinks = document.querySelectorAll('.helper-links a');
+            helperLinks.forEach((link, index) => {
+                link.style.opacity = '0';
+                link.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    link.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                    link.style.opacity = '1';
+                    link.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+
+            // Add loading shimmer effect
+            const formSection = document.querySelector('.form-section');
+            formSection.addEventListener('mouseenter', function() {
+                this.style.background = 'rgba(22, 33, 62, 0.9)';
+            });
+            formSection.addEventListener('mouseleave', function() {
+                this.style.background = 'rgba(22, 33, 62, 0.8)';
+            });
+        });
     </script>
 </body>
 </html>
